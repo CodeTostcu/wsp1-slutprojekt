@@ -27,9 +27,9 @@ class Seeder
   end
 
   def self.populate_tables
-    db.execute('INSERT INTO recipes (name, ingredients, description, time) VALUES ("Chokladbollar", kokos , "Enkla svenska Chokladbollar", "40")')
-    db.execute('INSERT INTO recipes (name, ingredients, description, time) VALUES ("Chokladbollar", kokos , "Enkla svenska Chokladbollar", "40")')
-    db.execute('INSERT INTO recipes (name, ingredients, description, time) VALUES ("Chokladbollar", kokos , "Enkla svenska Chokladbollar", "40")')
+    db.execute('INSERT INTO recipes (name, ingredients, description, time) VALUES ("Chokladbollar", "kokos" , "Enkla svenska Chokladbollar", "40")')
+    db.execute('INSERT INTO recipes (name, ingredients, description, time) VALUES ("Chokladbollar", "kokos" , "Enkla svenska Chokladbollar", "40")')
+    db.execute('INSERT INTO recipes (name, ingredients, description, time) VALUES ("Chokladbollar", "kokos" , "Enkla svenska Chokladbollar", "40")')
   end
 
   private
