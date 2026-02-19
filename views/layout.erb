@@ -1,14 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slutprojekt</title>
-    <link rel="stylesheet" type="text/css" href="/style.css?<%=Time.now.to_i%>">
+    <title>Desserts GBG</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <h1>Desserts GBG</h1>
-  <img src="/img/glhf.png">
-</body>
 
+    <header>
+        <div class="logo">Mmm Mumsigt</div>
+        <nav>
+            <a href="#">Grupper</a>
+            <a href="#">Skapa nytt recept</a>
+            <a href="#">Logga in</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <aside class="sidebar">
+            <h3>Grupper</h3>
+            <ul>
+                <li><a href="#">Veganskt</a></li>
+                <li><a href="#">Snabbt & Enkelt</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <h2>Senaste recepten</h2>
+
+            <div class="recipe-card">
+                <h3>Kladdkaka</h3>
+                <p>En klassisk svensk chokladkaka med kladdig mitten.</p>
+                <button>Läs mer</button>
+            </div>
+
+            <div class="recipe-card">
+                <h3>Vaniljpannacotta</h3>
+                <p>Krämig italiensk dessert med bärsås.</p>
+                <button>Läs mer</button>
+            </div>
+
+        </main>
+
+    </div>
+
+    <footer>
+        <p>© 2026 Desserts Mmm Mumsigt</p>
+    </footer>
+
+
+</body>
 </html>
