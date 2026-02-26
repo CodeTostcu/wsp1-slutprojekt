@@ -1,0 +1,32 @@
+
+<body>
+  <h2>Dina recept</h2>
+
+
+  <h2>Varmrätt</h2>
+  <ul>
+    <% @recipes.each do |recipe| %>
+      <% if recipe["category"].to_i == 1 %>
+        <li>
+          <a href="/recipes/<%= recipe["id"]%>"><%= recipe['name'] %> </a>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+
+
+  <h2>Kallrätt</h2>
+  <ul>
+    <% @recipes.each do |recipe| %>
+      <% if recipe["category"].to_i == 0 %>
+        <li>
+          <a href="/recipes/<%= recipe["id"]%>"><%= recipe['name'] %> </a>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+
+  <a href="/recipes/new">Nytt recept</a>
+
+</body>
+</html>

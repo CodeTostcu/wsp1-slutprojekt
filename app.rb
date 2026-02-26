@@ -24,4 +24,18 @@ class App < Sinatra::Base
       erb(:"recipes/index")
     end
 
+    get '/recipes/new' do
+      erb(:"recipes/new")
+    end 
+
+    post '/recipes' do
+      p params 
+      name = params["recipe_name"]
+      description = params["recipe_description"]
+      time = params["recipe_time"]
+      category = params["recipe_category"]
+
+      db.execute('INSERT INTO recipes(name, description, time, category) VALUES(?,?,?,?)', [name, description, time, category.to_i])
+      redirect("/recipes")
+    end 
 end

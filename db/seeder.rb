@@ -19,17 +19,17 @@ class Seeder
 
   def self.create_tables
     db.execute('CREATE TABLE recipes (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                ingredients TEXT,
-                description TEXT,
-                time INTEGER)')
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            description TEXT,
+            time INTEGER,
+            category INTEGER)')
   end
 
   def self.populate_tables
-    db.execute('INSERT INTO recipes (name, ingredients, description, time) VALUES ("Chokladbollar", "kokos" , "Enkla svenska Chokladbollar", "40")')
-    db.execute('INSERT INTO recipes (name, ingredients, description, time) VALUES ("Chokladbollar", "kokos" , "Enkla svenska Chokladbollar", "40")')
-    db.execute('INSERT INTO recipes (name, ingredients, description, time) VALUES ("Chokladbollar", "kokos" , "Enkla svenska Chokladbollar", "40")')
+    db.execute('INSERT INTO recipes (name, description, time, category) VALUES ("Chokladbollar", "Enkla svenska Chokladbollar", 40, 1)')
+    db.execute('INSERT INTO recipes (name, description, time, category) VALUES ("Chokladbollar", "Enkla svenska Chokladbollar", 40, 0)')
+    db.execute('INSERT INTO recipes (name, description, time, category) VALUES ("Chokladbollar", "Enkla svenska Chokladbollar", 40, 1)')
   end
 
   private

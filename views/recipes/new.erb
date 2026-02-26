@@ -1,0 +1,19 @@
+<h2>Nytt recept</h2>
+
+<form action="/recipes" method="post">
+    <label>Namn <input type="text" name="recipe_name"></label>
+
+    <label>Beskrivning <input type="text" name="recipe_description"></label>
+    
+    <label>Tid (min) <input type="number" name="recipe_time"></label>
+
+    <label>Kategori 
+        <select name="recipe_category" required>
+        <option value="0">Varmrätt</option>
+        <option value="1">Kallrätt</option>
+    </label>
+
+    
+
+    <input type="submit" value="Spara">
+</form>
