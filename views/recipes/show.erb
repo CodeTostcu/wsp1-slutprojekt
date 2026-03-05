@@ -1,0 +1,8 @@
+<h2>Recept: <%=@recipes['name']%></h2>
+
+<p>Typ av efterrätt:</p> <% if @recipes['category'] == 0 %> <p>Varmrätt</p> <% else %> <p>Kallrätt</p> <% end %>
+
+<p>Tid (min): <%=@recipes['time']%><p>
+
+<p>Beskrivning: <%=@recipes['description']%><p>
+

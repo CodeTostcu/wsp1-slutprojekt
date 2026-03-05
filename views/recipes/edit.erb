@@ -1,0 +1,17 @@
+<h2>Uppdatera recept</h2>
+
+<form action="/recipes/<%=@recipes["id"]%>/update" method="post">
+	  <label>Namn <input type="text" name="recipe_name" value="<%= @recipes['name']%>"></label>
+
+    <label>Beskrivning <input type="text" name="recipe_description" value="<%= @recipes['description']%>"></label>
+    
+    <label>Tid (min) <input type="number" name="recipe_time" value="<%= @recipes['time']%>"></label>
+
+    <label>Kategori 
+        <select name="recipe_category" required>
+         <option value="0" <%= "selected" if @recipes['category'] == 0 %>>Varmrätt</option>
+         <option value="1" <%= "selected" if @recipes['category'] == 1 %>>Kallrätt</option>
+    </label>
+
+    <input type="submit" value="Save">
+</form>
