@@ -3,15 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mmm Mumsigt</title>
+    <title>Mmm_Mumsigt.se</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
-
     <header>
         <div class="logo">Mmm Mumsigt</div>
     </header>
+
+    <div id="login-info">
+     <% if @current_user %>
+    <span>Inloggad som: <%= @current_user['username'] %></span>
+     <% else %>
+    <span>Ej inloggad</span>
+     <% end %>
+    </div>
+    
+    <nav>
+          <% if @current_user %>
+            <form class="delete" action="/logout" method="post">
+              <input type="submit" value="Logga ut">
+            </form>
+          <% end %>       
+    </nav>
 
     <%= yield %>
 </body>

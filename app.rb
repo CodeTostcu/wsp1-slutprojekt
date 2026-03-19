@@ -1,8 +1,8 @@
 require 'debug'
 require "awesome_print"
-
 require 'sinatra'
 require 'securerandom'
+require 'bcrypt'
 
 class App < Sinatra::Base
 
@@ -17,12 +17,13 @@ class App < Sinatra::Base
     end
 
     get '/' do
-      redirect('/recipes')
+      redirect('/login')
     end
 
     get '/recipes' do
       @recipes = db.execute('SELECT * FROM recipes')
       p @recipes
+      
       erb(:"recipes/index")
     end
 
@@ -36,8 +37,9 @@ class App < Sinatra::Base
       description = params["recipe_description"]
       time = params["recipe_time"]
       category = params["recipe_category"]
+      userid = session[:user_id]
 
-      db.execute('INSERT INTO recipes(name, description, time, category) VALUES(?,?,?,?)', [name, description, time, category.to_i])
+      db.execute('INSERT INTO recipes(name, description, time, category, userid) VALUES(?,?,?,?,?)', [name, description, time, category.to_i, userid.to_i])
       redirect("/recipes")
     end 
 
@@ -140,5 +142,16 @@ class App < Sinatra::Base
     get '/users/new' do
       erb(:"users/new")
     end
+
+    post '/users' do
+      p params 
+      username = params["user_name"]
+      password = params["user_password"]
+
+      password_hashed = BCrypt::Password.create(password)
+
+      db.execute('INSERT INTO users(username, password) VALUES(?,?)', [username, password_hashed])
+      redirect("/login")
+    end 
 
 end

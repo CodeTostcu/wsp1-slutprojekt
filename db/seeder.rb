@@ -1,4 +1,5 @@
 require 'sqlite3'
+require 'bcrypt'
 
 class Seeder
 
@@ -15,49 +16,42 @@ class Seeder
 
   def self.drop_tables
     db.execute('DROP TABLE IF EXISTS recipes')
-  end
-
-  def self.create_tables
-    db.execute('CREATE TABLE recipes (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            description TEXT,
-            time INTEGER,
-            category INTEGER)')
-  end
-
-  def self.populate_tables
-    db.execute('INSERT INTO recipes (name, description, time, category) VALUES ("Chokladbollar", "Enkla svenska Chokladbollar", 40, 1)')
-    db.execute('INSERT INTO recipes (name, description, time, category) VALUES ("Chokladbollar", "Enkla svenska Chokladbollar", 40, 0)')
-    db.execute('INSERT INTO recipes (name, description, time, category) VALUES ("Chokladbollar", "Enkla svenska Chokladbollar", 40, 1)')
-  end
-
-  private
-  def self.db
-    return @db if @db
-    @db = SQLite3::Database.new(DB_PATH)
-    @db.results_as_hash = true
-    @db
-  end
-
-
-
-  def self.drop_tables
     db.execute('DROP TABLE IF EXISTS users')
   end
 
-  
   def self.create_tables
     db.execute('CREATE TABLE users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT NOT NULL,
                 password TEXT NOT NULL)')
+
+   
+    db.execute('CREATE TABLE recipes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                description TEXT,
+                time INTEGER,
+                category INTEGER, 
+                userid INTEGER)')
   end
 
   def self.populate_tables
     password_hashed = BCrypt::Password.create("123")
     p "Storing hashed password (#{password_hashed}) to DB. Clear text password (123) never saved."
+
     db.execute('INSERT INTO users (username, password) VALUES (?, ?)', ["Korven", password_hashed])
+    db.execute('INSERT INTO users (username, password) VALUES (?, ?)', ["Anna", password_hashed])
+    
+    db.execute("INSERT INTO recipes (name, description, time, category, userid) VALUES ('choklad', 'Hej', 10, 0, 1)")
+  end
+
+  private
+
+  def self.db
+    return @db if @db
+    @db = SQLite3::Database.new(DB_PATH)
+    @db.results_as_hash = true
+    @db
   end
 end
 
