@@ -69,7 +69,7 @@ class App < Sinatra::Base
     end
 
 
-    #log in
+    #login
 
     configure do
       enable :sessions
