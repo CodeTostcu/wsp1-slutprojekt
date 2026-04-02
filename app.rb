@@ -4,6 +4,8 @@ require 'sinatra'
 require 'securerandom'
 require 'bcrypt'
 
+require_relative 'models/recipe'
+
 class App < Sinatra::Base
 
     setup_development_features(self)
@@ -21,9 +23,11 @@ class App < Sinatra::Base
     end
 
     get '/recipes' do
-      @recipes = db.execute('SELECT * FROM recipes')
-      p @recipes
+      #@recipes = db.execute('SELECT * FROM recipes')
+      #p @recipes
       
+      @recipes = Recipes.all();
+      p @recipes
       erb(:"recipes/index")
     end
 
@@ -33,28 +37,36 @@ class App < Sinatra::Base
 
     post '/recipes' do
       p params 
+
       name = params["recipe_name"]
       description = params["recipe_description"]
       time = params["recipe_time"]
       category = params["recipe_category"]
       userid = session[:user_id]
 
-      db.execute('INSERT INTO recipes(name, description, time, category, userid) VALUES(?,?,?,?,?)', [name, description, time, category.to_i, userid.to_i])
+      #db.execute('INSERT INTO recipes(name, description, time, category, userid) VALUES(?,?,?,?,?)', [name, description, time, category.to_i, userid.to_i])
+      @new = Recipes.create(name, description, time, category, userid);
+      p @new
       redirect("/recipes")
     end 
 
     get '/recipes/:id' do | id |
-      @recipes = db.execute('SELECT * FROM recipes WHERE id=?', [id.to_i]).first
+      #@recipes = db.execute('SELECT * FROM recipes WHERE id=?', [id.to_i]).first
+      @recipes = Recipes.select(id);
       erb(:"recipes/show")
     end
 
     post '/recipes/:id/delete' do | id |
-      db.execute('DELETE FROM recipes WHERE id=?', [id.to_i])
+      #db.execute('DELETE FROM recipes WHERE id=?', [id.to_i])
+      @delete = Recipes.delete(id);
+      p @delete
       redirect("/recipes") 
     end
 
     get '/recipes/:id/edit' do | id |
-      @recipes = db.execute('SELECT * FROM recipes WHERE id=?', [id.to_i]).first
+      #@recipes = db.execute('SELECT * FROM recipes WHERE id=?', [id.to_i]).first
+
+      @recipes = Recipes.select(id);
       erb(:"recipes/edit")
     end
 
@@ -64,7 +76,9 @@ class App < Sinatra::Base
       time = params["recipe_time"]
       category = params["recipe_category"]
 
-      db.execute('Update recipes Set name=?, description=?, time=?, category=? Where id=?', [name, description, time, category, id])
+      #db.execute('Update recipes Set name=?, description=?, time=?, category=? Where id=?', [name, description, time, category, id])
+      @update = Recipes.update(name, description, time, category, id)
+      p @update
       redirect("/recipes")
     end
 
@@ -153,5 +167,12 @@ class App < Sinatra::Base
       db.execute('INSERT INTO users(username, password) VALUES(?,?)', [username, password_hashed])
       redirect("/login")
     end 
+
+    post '/users/:id/delete' do | id |
+      db.execute('DELETE FROM users WHERE id=?', session[:user_id])
+      db.execute('DELETE FROM recipes WHERE userid=?', session[:user_id])
+      session.clear
+      redirect("/login") 
+    end
 
 end
