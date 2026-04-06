@@ -184,17 +184,21 @@ class App < Sinatra::Base
 
 
     get '/users/:id/edit' do | id |
-      @current_user = db.execute("SELECT * FROM users WHERE id = ?", [id]).first
-
+      #@current_user = db.execute("SELECT * FROM users WHERE id = ?", [session[:user_id]]).first
+      @current_user = Users.find(session[:user_id])
       erb(:"users/edit")
     end
 
     post "/users/:id/update" do |id|
       username = params["user_name"]
-
-      #db.execute('UPDATE users SET username=? WHERE id=?', [username, id])
-      Users.update(username, id)
-      redirect "/users/#{session[:user_id]}/edit"
+      @existing_user = db.execute("SELECT * FROM users WHERE username = ? AND id != ?",[username, id]).first
+    
+      if @existing_user
+        redirect "/users/#{id}/edit"
+      else
+        Users.update(username, id)
+        redirect "/users/#{id}/edit"
+      end
     end
 
 

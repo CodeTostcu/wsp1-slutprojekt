@@ -17,6 +17,8 @@ class Seeder
   def self.drop_tables
     db.execute('DROP TABLE IF EXISTS recipes')
     db.execute('DROP TABLE IF EXISTS users')
+
+    db.execute('DROP TABLE IF EXISTS groups')
   end
 
   def self.create_tables
@@ -33,6 +35,11 @@ class Seeder
                 time INTEGER,
                 category INTEGER, 
                 userid INTEGER)')
+
+    db.execute('CREATE TABLE groups (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                userid)')
   end
 
   def self.populate_tables
