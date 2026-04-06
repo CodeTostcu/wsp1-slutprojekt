@@ -1,0 +1,8 @@
+<h2>Uppdatera Användare</h2>
+
+<form action="/users/<%=@current_user["id"]%>/update" method="post">
+
+	<label>Användarnamn<input type="text" name="user_name" value="<%= @current_user['username']%>"></label>
+
+    <input type="submit" value="Save">
+</form>

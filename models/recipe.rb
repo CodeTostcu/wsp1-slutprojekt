@@ -1,4 +1,3 @@
-#models/user.rb
 require 'sqlite3'
 
 class Recipes
@@ -15,12 +14,16 @@ class Recipes
     return db.execute('SELECT * FROM recipes')
   end
 
-  def self.select(id)
+  def self.find(id)
     return db.execute('SELECT * FROM recipes WHERE id=?', [id.to_i]).first
   end
 
   def self.delete(id)
     db.execute('DELETE FROM recipes WHERE id=?', [id.to_i])
+  end 
+
+  def self.delete2(userid)
+    db.execute('DELETE FROM recipes WHERE userid=?', [userid])
   end 
 
   def self.create(name, description, time, category, userid)

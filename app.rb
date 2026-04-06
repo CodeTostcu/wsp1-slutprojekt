@@ -5,6 +5,7 @@ require 'securerandom'
 require 'bcrypt'
 
 require_relative 'models/recipe'
+require_relative 'models/user'
 
 class App < Sinatra::Base
 
@@ -52,7 +53,7 @@ class App < Sinatra::Base
 
     get '/recipes/:id' do | id |
       #@recipes = db.execute('SELECT * FROM recipes WHERE id=?', [id.to_i]).first
-      @recipes = Recipes.select(id);
+      @recipes = Recipes.find(id);
       erb(:"recipes/show")
     end
 
@@ -66,7 +67,7 @@ class App < Sinatra::Base
     get '/recipes/:id/edit' do | id |
       #@recipes = db.execute('SELECT * FROM recipes WHERE id=?', [id.to_i]).first
 
-      @recipes = Recipes.select(id);
+      @recipes = Recipes.find(id);
       erb(:"recipes/edit")
     end
 
@@ -92,7 +93,8 @@ class App < Sinatra::Base
   
     before do
       if session[:user_id]
-        @current_user = db.execute("SELECT * FROM users WHERE id = ?", session[:user_id]).first
+        #@current_user = db.execute("SELECT * FROM users WHERE id = ?", session[:user_id]).first
+        @current_user = Users.find(session[:user_id]);
         ap @current_user
       end
     end
@@ -123,8 +125,9 @@ class App < Sinatra::Base
       request_username = params[:username]
       request_plain_password = params[:password]
   
-      user = db.execute("SELECT * FROM users WHERE username = ?", request_username).first
-  
+      #user = db.execute("SELECT * FROM users WHERE username = ?", request_username).first
+      user = Users.all(request_username)
+
       unless user
         ap "/login : Invalid username."
         status 401
@@ -164,15 +167,36 @@ class App < Sinatra::Base
 
       password_hashed = BCrypt::Password.create(password)
 
-      db.execute('INSERT INTO users(username, password) VALUES(?,?)', [username, password_hashed])
+      #db.execute('INSERT INTO users(username, password) VALUES(?,?)', [username, password_hashed])
+      Users.create(username, password_hashed)
       redirect("/login")
     end 
 
     post '/users/:id/delete' do | id |
-      db.execute('DELETE FROM users WHERE id=?', session[:user_id])
-      db.execute('DELETE FROM recipes WHERE userid=?', session[:user_id])
+      #db.execute('DELETE FROM users WHERE id=?', session[:user_id])
+      #db.execute('DELETE FROM recipes WHERE userid=?', session[:user_id])
+
+      Users.delete(session[:user_id])
+      Recipes.delete2(session[:user_id])
       session.clear
       redirect("/login") 
     end
+
+
+    get '/users/:id/edit' do | id |
+      @current_user = db.execute("SELECT * FROM users WHERE id = ?", [id]).first
+
+      erb(:"users/edit")
+    end
+
+    post "/users/:id/update" do |id|
+      username = params["user_name"]
+
+      #db.execute('UPDATE users SET username=? WHERE id=?', [username, id])
+      Users.update(username, id)
+      redirect "/users/#{session[:user_id]}/edit"
+    end
+
+
 
 end
