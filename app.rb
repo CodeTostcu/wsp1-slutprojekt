@@ -191,8 +191,9 @@ class App < Sinatra::Base
 
     post "/users/:id/update" do |id|
       username = params["user_name"]
-      @existing_user = db.execute("SELECT * FROM users WHERE username = ? AND id != ?",[username, id]).first
-    
+      #@existing_user = db.execute("SELECT * FROM users WHERE username = ? AND id != ?",[username, id]).first
+      @existing_user = Users.find_user(username, id)
+
       if @existing_user
         redirect "/users/#{id}/edit"
       else
@@ -201,6 +202,24 @@ class App < Sinatra::Base
       end
     end
 
+    get '/groups' do
+      @groups = db.execute('SELECT * FROM groups')
+      p @groups
 
+      @join_group = db.execute('SELECT * FROM groups INNER JOIN group_members ON groups.id = group_members.groupid WHERE group_members.userid = ?', [session[:user_id]])
+      @not_join_group = db.execute('SELECT * FROM groups INNER JOIN group_members ON groups.id = group_members.groupid WHERE NOT group_members.userid = ? ', [session[:user_id]])
+      p @join_group
 
+      erb(:"groups/index")
+    end
+
+    get '/groups/:id' do |id|
+     
+      erb(:"groups/show")
+    end
+
+    post '/groups/:id/join' do |id|
+
+      redirect("/groups")
+    end 
 end

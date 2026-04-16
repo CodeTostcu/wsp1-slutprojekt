@@ -1,0 +1,17 @@
+<body>
+
+    <h2>Dina grupper</h2>
+    <% @join_group.each do |group| %>
+        <li>
+            <a href="/groups/<%= group["id"]%>"><%= group['name'] %> </a>
+        </li>
+    <% end %>
+
+    <h2>Andra grupper</h2>
+    <% @not_join_group.each do |group| %>
+        <li>
+             <%= group["name"] %>
+        </li>
+    <% end %>
+</body>
+</html>

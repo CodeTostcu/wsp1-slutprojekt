@@ -21,12 +21,13 @@
     </div>
     
     <nav>
-          <% if @current_user %>
-            <form class="delete" action="/logout" method="post">
-              <input type="submit" value="Logga ut">
-            </form>
-          <% end %>       
+        <% if @current_user %>
+          <form class="delete" action="/logout" method="post">
+            <input type="submit" value="Logga ut">
+          </form>
+        <% end %>       
     </nav>
+
 
     <%= yield %>
 </body>

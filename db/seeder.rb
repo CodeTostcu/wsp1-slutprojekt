@@ -19,6 +19,7 @@ class Seeder
     db.execute('DROP TABLE IF EXISTS users')
 
     db.execute('DROP TABLE IF EXISTS groups')
+    db.execute('DROP TABLE IF EXISTS group_members')
   end
 
   def self.create_tables
@@ -38,8 +39,16 @@ class Seeder
 
     db.execute('CREATE TABLE groups (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                userid)')
+                name TEXT NOT NULL)')
+    
+    db.execute('CREATE TABLE group_members (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                userid INTEGER NOT NULL,
+                groupid INTEGER NOT NULL,
+                UNIQUE(userid, groupid),
+                FOREIGN KEY(userid) REFERENCES users(id),
+                FOREIGN KEY(groupid) REFERENCES users(id)
+                )')
   end
 
   def self.populate_tables
@@ -50,6 +59,10 @@ class Seeder
     db.execute('INSERT INTO users (username, password) VALUES (?, ?)', ["Anna", password_hashed])
     
     db.execute("INSERT INTO recipes (name, description, time, category, userid) VALUES ('choklad', 'Hej', 10, 0, 1)")
+
+    db.execute('INSERT INTO groups (name) VALUES (?)', ["Macka för 10kr"])
+
+    db.execute('INSERT INTO group_members (userid, groupid) VALUES (?, ?)', [1,1])
   end
 
   private

@@ -30,4 +30,8 @@ class Users
     db.execute('UPDATE users SET username=? WHERE id=?', [username, id])
   end 
 
+  def self.find_user(username, id)
+    return db.execute("SELECT * FROM users WHERE username = ? AND id != ?",[username, id]).first
+  end 
+
 end 
