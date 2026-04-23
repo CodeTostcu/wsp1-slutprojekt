@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+</head>
+
+<body>
+
+  <h2>Medlemmar</h2>
+
+  <ul>
+    <% @user_recipes.each do |user| %>
+      <li>
+        <p href="/users/<%= user["id"] %>">
+          <%= user["username"] %>
+        </p>
+      </li>
+    <% end %>
+  </ul>
+
+</body>
+</html>

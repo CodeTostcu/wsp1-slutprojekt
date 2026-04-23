@@ -62,9 +62,12 @@ class Seeder
 
     db.execute('INSERT INTO groups (name) VALUES (?)', ["Macka för 10kr"])
     db.execute('INSERT INTO groups (name) VALUES (?)', ["Macka för 100kr"])
+    db.execute('INSERT INTO groups (name) VALUES (?)', ["Macka för 1000kr"])
 
     db.execute('INSERT INTO group_members (userid, groupid) VALUES (?, ?)', [1,1])
+    db.execute('INSERT INTO group_members (userid, groupid) VALUES (?, ?)', [1,2])
     db.execute('INSERT INTO group_members (userid, groupid) VALUES (?, ?)', [2,2])
+    db.execute('INSERT INTO group_members (userid, groupid) VALUES (?, ?)', [1,3])
   end
 
   private

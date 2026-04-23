@@ -22,7 +22,7 @@ class Recipes
     db.execute('DELETE FROM recipes WHERE id=?', [id.to_i])
   end 
 
-  def self.delete2(userid)
+  def self.delete_user(userid)
     db.execute('DELETE FROM recipes WHERE userid=?', [userid])
   end 
 

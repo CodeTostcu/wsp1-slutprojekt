@@ -34,4 +34,5 @@ class Users
     return db.execute("SELECT * FROM users WHERE username = ? AND id != ?",[username, id]).first
   end 
 
+  
 end 

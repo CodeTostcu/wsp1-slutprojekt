@@ -1,17 +1,19 @@
 <body>
-
     <h2>Dina grupper</h2>
-    <% @join_group.each do |group| %>
+    <% @user_group.each do |group| %>
         <li>
-            <a href="/groups/<%= group["id"]%>"><%= group['name'] %> </a>
+            <a href="/groups/<%= group["groupid"]%>"><%= group['name'] %> </a>
         </li>
     <% end %>
 
     <h2>Andra grupper</h2>
-    <% @not_join_group.each do |group| %>
+    <% @other_group.each do |group| %>
         <li>
-             <%= group["name"] %>
-        </li>
+            <%= group["name"] %>
+            <form class='join' action="/groups/<%=group["id"]%>/join" method="post" >
+	           <input type="submit" value="Joina"> 
+            </form>
+        </li>   
     <% end %>
 </body>
 </html>
